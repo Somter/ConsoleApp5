@@ -7,12 +7,13 @@ namespace CSharp.Classes
         int day;
         int month;
         int year;
+        int res;
 
         public static int[] MonthDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
         public int Day
         {
-            get { 
+            get {
                 return day;
             }
             set
@@ -30,8 +31,8 @@ namespace CSharp.Classes
 
         public int Month
         {
-            get { 
-                return month; 
+            get {
+                return month;
             }
             set
             {
@@ -48,8 +49,8 @@ namespace CSharp.Classes
 
         public int Year
         {
-            get { 
-                return year; 
+            get {
+                return year;
             }
             set
             {
@@ -64,13 +65,21 @@ namespace CSharp.Classes
             }
         }
 
+        public int Res
+        {
+            get
+            {
+                return res;
+            }
+        }
+
         public string Day_Of_Week
         {
             get
             {
                 string[] WekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
                 int totalDays = TotalDays();
-                int dayIndex = (totalDays + 1) % 7; 
+                int dayIndex = (totalDays + 1) % 7;
                 return WekDays[dayIndex];
             }
         }
@@ -82,12 +91,12 @@ namespace CSharp.Classes
         }
         public Date(int valueDay, int valueMonth, int valueYear)
         {
-            Year = valueYear;   
+            Year = valueYear;
             Month = valueMonth;
-            Day = valueDay;   
+            Day = valueDay;
         }
 
-        public int TotalDays()  
+        public int TotalDays()
         {
             int totalDays = day;
 
@@ -95,36 +104,108 @@ namespace CSharp.Classes
             {
                 totalDays += MonthDays[i];
             }
-            totalDays += (year - 1) * 365; 
+            totalDays += (year - 1) * 365;
             return totalDays;
         }
 
-        
-        public static int DiffDays(Date d1, Date d2)
+        //  Перегрузка бинарного оператора "-"
+        public static Date operator -(Date d1, Date d2)
         {
-            return Math.Abs(d1.TotalDays() - d2.TotalDays());
+            Date result = new()
+            {
+                res = Math.Abs(d1.TotalDays() - d2.TotalDays())
+            };
+            return result;
         }
 
-        public void ChangeDate(int daysToAdd)
+        // Перегрузка бинарного оператора "+"
+        public static Date operator +(Date d, int daysToAdd)
         {
-            day += daysToAdd;
+            Date result = new Date(d.day, d.month, d.year);
 
-            while (day > MonthDays[month - 1])   
-            {   
-                day -= MonthDays[month - 1];
-                month++;
+            result.day += daysToAdd;
 
-                if (month > 12)     
+            while (result.day > MonthDays[result.month - 1])
+            {
+                result.day -= MonthDays[result.month - 1];
+                result.month++;
+
+                if (result.month > 12)
                 {
-                    month = 1;
-                    year++;
+                    result.month = 1;
+                    result.year++;
                 }
             }
 
-            if (month == 2 && day > 28)
+            if (result.month == 2 && result.day > 28)
             {
-                day = 28; 
+                result.day = 28;
             }
+
+            return result;
+        }
+
+       // Перегрузка унарного оператора "++"
+        public static Date operator ++(Date d) 
+        {
+            Date result = new()
+            {
+                day = d.day + 1,
+                month = d.month,
+                year = d.year
+            };
+            return result;
+        }
+
+       // Перегрузка унарного оператора "--"
+        public static Date operator --(Date d)
+        {
+            Date result = new()
+            {
+                day = d.day - 1,
+                month = d.month,
+                year = d.year
+            };
+            return result;
+        }
+        // Перегрузка оператора ">"
+        public static bool operator >(Date d1, Date d2)
+        {
+            if (d1.year > d2.year)
+                return true;
+            else if (d1.year == d2.year && d1.month > d2.month)
+                return true;
+            else if (d1.year == d2.year && d1.month == d2.month && d1.day > d2.day)
+                return true;
+            else
+                return false;
+        }
+
+        // Перегрузка оператора "<"
+        public static bool operator <(Date d1, Date d2)
+        {
+            if (d1.year < d2.year)
+                return true;
+            else if (d1.year == d2.year && d1.month < d2.month)
+                return true;
+            else if (d1.year == d2.year && d1.month == d2.month && d1.day < d2.day)
+                return true;
+            else
+                return false;
+        }
+
+        // Перегрузка оператора "=="
+        public static bool operator ==(Date d1, Date d2)
+        {
+            if (d1.year == d2.year && d1.month == d2.month && d1.day == d2.day)
+                return true;
+            else
+                return false;
+        }
+        // Перегрузка оператора "!="
+        public static bool operator !=(Date d1, Date d2)
+        {
+            return !(d1 == d2);
         }
 
         public void Print()
