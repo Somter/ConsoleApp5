@@ -19,24 +19,38 @@ namespace CSharp.Classes
             }
             set
             {
+                // Оператор throw создает исключение
+                // ArgumentOutOfRangeException -  сообщает, что значение выходит за допустимые пределы
+
                 try
                 {
-                    // Является ли год високосным
+                    // Проверка, является ли год високосным
                     bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 
+                   
                     if (month == 2)
                     {
-                        if (isLeapYear && value > 0 && value <= 29)
+                        if (isLeapYear)
                         {
-                            day = value;
-                        }
-                        else if (!isLeapYear && value > 0 && value <= 28)
-                        {
-                            day = value;
+                            if (value > 0 && value <= 29)
+                            {
+                                day = value;
+                            }
+                            else
+                            {
+                                throw new ArgumentOutOfRangeException(nameof(Day), "Недопустимый в феврале в високосном году.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Некорректный день для февраля.");
+                            if (value > 0 && value <= 28)
+                            {
+                                day = value;
+                            }
+                            else
+                            {
+                                throw new ArgumentOutOfRangeException(nameof(Day), "Недопустимый день в феврале в невисокосном году.");
+                            }
                         }
                     }
                   
@@ -46,10 +60,10 @@ namespace CSharp.Classes
                     }
                     else
                     {
-                        Console.WriteLine("Некорректный день для месяца.");
+                        throw new ArgumentOutOfRangeException(nameof(Day), "Неверный день для вашего месяца.");
                     }
                 }
-                catch (Exception ex)
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -72,10 +86,10 @@ namespace CSharp.Classes
                     }
                     else
                     {
-                        Console.WriteLine("Некорректный месяц.");
+                        throw new ArgumentOutOfRangeException(nameof(Month), "Месяц должен быть от 1 до 12.");
                     }
                 }
-                catch (Exception ex)
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -98,16 +112,15 @@ namespace CSharp.Classes
                     }
                     else
                     {
-                        Console.WriteLine("Некорректный год.");
+                        throw new ArgumentOutOfRangeException(nameof(Year), "Год должен быть только положительным числом.");
                     }
                 }
-                catch (Exception ex)
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
         }
-
 
         public int Res
         {
