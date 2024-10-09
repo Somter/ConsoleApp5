@@ -1,6 +1,6 @@
 ﻿using CSharp.Classes;
 
-Date date1 = new Date(5, 3, 2023);
+Date date1 = new Date(5, 6, 2023);
 Date date2 = new Date(23, 7, 2024);
 Date Result = new();
 int number = 10;
@@ -8,7 +8,7 @@ int number = 10;
 Console.Write("Date 1: ");
 date1.Print();
 Console.Write("Date 2: ");
-date2.Print();
+date2.Print();  
 
 if (date1 > date2)
 {
@@ -31,14 +31,14 @@ Console.Write("Operator ++: ");
 date1.Print();
 
 date1 = --date2;
-Console.Write("Operator --: ");
-date1.Print();
+Console.Write("Operator --: "); 
+date1.Print();  
 
 if (date1 == date2) 
 {
     Console.WriteLine("date1 == date2");
 }
-if (date1 != date2)
+if (date1 != date2) 
 {
     Console.WriteLine("date1 != date2");
 }

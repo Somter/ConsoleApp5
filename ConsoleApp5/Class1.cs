@@ -13,57 +13,101 @@ namespace CSharp.Classes
 
         public int Day
         {
-            get {
+            get
+            {
                 return day;
             }
             set
             {
-                if (value > 0 && value <= MonthDays[month - 1])
+                try
                 {
-                    day = value;
+                    // Является ли год високосным
+                    bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+
+                    if (month == 2)
+                    {
+                        if (isLeapYear && value > 0 && value <= 29)
+                        {
+                            day = value;
+                        }
+                        else if (!isLeapYear && value > 0 && value <= 28)
+                        {
+                            day = value;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Некорректный день для февраля.");
+                        }
+                    }
+                  
+                    else if (value > 0 && value <= MonthDays[month - 1])
+                    {
+                        day = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректный день для месяца.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Error");
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
 
         public int Month
         {
-            get {
+            get
+            {
                 return month;
             }
             set
             {
-                if (value > 0 && value <= 12)
+                try
                 {
-                    month = value;
+                    if (value > 0 && value <= 12)
+                    {
+                        month = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректный месяц.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Error");
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
 
         public int Year
         {
-            get {
+            get
+            {
                 return year;
             }
             set
             {
-                if (value > 0)
+                try
                 {
-                    year = value;
+                    if (value > 0)
+                    {
+                        year = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректный год.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Error");
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
+
 
         public int Res
         {
